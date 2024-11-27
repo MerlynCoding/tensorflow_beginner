@@ -1,6 +1,6 @@
 # TensorFlow Beginner Guide
 
-This guide explains the basics of using **TensorFlow** for creating and manipulating tensors, indexing, reshaping, and GPU memory management. It is aimed at beginners, so everything is explained in simple terms.
+This guide explains the basics of using **TensorFlow** for creating and manipulating tensors, indexing, reshaping, GPU memory management, and setting up TensorFlow with GPU support. It is aimed at beginners, so everything is explained in simple terms.
 
 ---
 
@@ -15,7 +15,35 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppresses warnings and info logs
 
 ---
 
-## 2. Managing GPU Memory Usage
+## 2. Installing CUDA and cuDNN for GPU Support
+
+TensorFlow leverages GPUs for faster computation. To enable GPU support, you need to install **CUDA** and **cuDNN**:
+
+### 2.1 Installing CUDA
+1. Download the CUDA Toolkit from the [NVIDIA CUDA Downloads page](https://developer.nvidia.com/cuda-downloads). Choose the version compatible with your TensorFlow version (e.g., CUDA 11.8 for TensorFlow 2.11+).
+2. Install the toolkit and follow the instructions for your operating system.
+3. Verify the installation:
+   ```bash
+   nvcc --version
+   ```
+   This command should display the installed CUDA version.
+
+### 2.2 Installing cuDNN
+1. Download cuDNN from the [NVIDIA cuDNN page](https://developer.nvidia.com/cudnn). Ensure you download the version compatible with your CUDA version.
+2. Extract the cuDNN files and copy them to the CUDA installation directory:
+   - Copy the contents of `bin/` to `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\bin`
+   - Copy the contents of `include/` to `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\include`
+   - Copy the contents of `lib/` to `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\lib\x64`
+
+### 2.3 Adding CUDA and cuDNN to Environment Variables
+Add the following paths to your system’s environment variables:
+- `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\bin`
+- `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\libnvvp`
+- `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X\lib\x64`
+
+---
+
+## 3. Managing GPU Memory Usage
 
 If you are using a GPU, TensorFlow can sometimes allocate all available memory, even if your program doesn't need it. To prevent this, you can set memory growth for GPUs:
 
@@ -30,18 +58,18 @@ This ensures TensorFlow only uses the memory it needs, instead of pre-allocating
 
 ---
 
-## 3. Tensor Basics
+## 4. Tensor Basics
 
-### 3.1 Tensor Initialization
+### 4.1 Tensor Initialization
 Refer to the earlier section in this README for how to initialize tensors using constants, zeros, ones, and random values.
 
 ---
 
-## 4. Tensor Indexing and Slicing
+## 5. Tensor Indexing and Slicing
 
 You can access elements of a tensor using indexing or slicing, similar to Python lists.
 
-### 4.1 Simple Indexing
+### 5.1 Simple Indexing
 ```python
 x = tf.constant([0, 1, 1, 2, 3, 1, 2, 3])
 
@@ -53,7 +81,7 @@ print(x[::-1]) # Reverse the tensor
 print(x[:-1])  # All elements except the last one
 ```
 
-### 4.2 Advanced Indexing
+### 5.2 Advanced Indexing
 You can also use TensorFlow's `gather()` function to extract specific indices:
 
 ```python
@@ -63,9 +91,9 @@ x_ind = tf.gather(x, indices)  # Gather values at these indices
 
 ---
 
-## 5. Tensor Reshaping and Transposing
+## 6. Tensor Reshaping and Transposing
 
-### 5.1 Reshaping Tensors
+### 6.1 Reshaping Tensors
 Change the shape of a tensor without altering its data:
 
 ```python
@@ -76,7 +104,7 @@ x = tf.reshape(x, (3, 3))  # Reshape into a 3x3 matrix
 print(x)
 ```
 
-### 5.2 Transposing Tensors
+### 6.2 Transposing Tensors
 Swap the rows and columns (or dimensions) of a tensor:
 
 ```python
@@ -86,8 +114,9 @@ print(x)
 
 ---
 
-## 6. Summary
+## 7. Summary
 
+- **CUDA and cuDNN Installation**: Proper setup is critical for enabling GPU support.
 - **GPU Memory Management**: Configure TensorFlow to use memory dynamically.
 - **Indexing and Slicing**: Access elements and slices of a tensor easily.
 - **Reshaping and Transposing**: Transform tensor shapes and dimensions as needed.
